@@ -1,0 +1,24 @@
+import discord
+import requests
+import random
+import json
+from random import randint
+
+roulette_ask = ('/Рулетка', '/рулетка')
+
+async def also_roulette(message):
+   r1 = random.randint(1,9)
+   r2 = random.randint(0,9)
+   r3 = random.randint(0,9)
+   summ = ((r1 * 100) + (r2 * 10) + r3)
+   await message.channel.send(summ)
+   if(r1 == (r2 - 1) and r2 == (r3 - 1) or r1 == (r2 + 1) and r2 == (r3 + 1)):
+     await message.channel.send('Чередующиеся! x20 social credits')
+   if(r1 == r2 or r2 == r3 or r1 == r3):
+     await message.channel.send('Двойной! x2 social credits')
+   else:
+     await message.channel.send('В этот раз не повезло, -100 social credits ставка')
+   if(r1 == r2 == r3 and r1 != 7):      
+     await message.channel.send('Тройной! x100 social credits')   
+   if(r1 == r2 == r3 and r1 == 7):
+     await message.channel.send('Джекпот! x 1000 social credits')
