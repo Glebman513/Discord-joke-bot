@@ -1,0 +1,63 @@
+import discord
+import requests
+import random
+import json
+from random import randint
+from aneks import anek_list
+from aneks import anek_request
+from aneks import anek_quant_request
+from aneks import numanek
+from discord.ext import commands
+from roulette import roulette_ask
+from roulette import also_roulette
+from commandlist import com_req
+from commandlist import commandes
+from aneks import wordanek
+from aneks import phraseanek
+
+bot = commands.Bot(command_prefix='$')
+
+client = discord.Client()
+
+sea_battle = ('/Морской бой', '/морской бой')
+
+@bot.command()
+async def test(ctx, arg):
+    await ctx.send(arg)
+
+@client.event
+async def on_ready():
+    print('We have logged in as {0.user}'.format(client))
+
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+
+    if message.content.startswith('чел ты'):
+        await message.channel.send('да да я')      
+    if message.content.startswith(anek_quant_request):
+        await message.channel.send(len(anek_list))
+    if message.content.startswith(anek_request):
+        await message.channel.send(random.choice(anek_list))
+    if message.content.startswith('абоба'):
+        await message.channel.send('замолчи свой рот пожалуйста')
+    if message.content.startswith(roulette_ask):
+       await also_roulette(message)
+    if message.content.startswith(sea_battle):
+        await message.channel.send('https://vk.com/app3599295')
+    if message.content.startswith(numanek):
+        num = int(message.content.split()[-1])
+        await message.channel.send(anek_list[num-1])
+    if message.content.startswith(phraseanek):
+      word2 = message.content.split(',')[-1]
+      for b in anek_list:
+       if word2 in b:
+         await message.channel.send(b)
+    if message.content.startswith(wordanek):
+      word = message.content.split()[-1]
+      for a in anek_list:
+       if word in a:
+        await message.channel.send(a)
+
+client.run('token')
